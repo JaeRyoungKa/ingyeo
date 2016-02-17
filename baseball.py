@@ -2,13 +2,13 @@ import random
 
 # chance of result
 hr = 1
-out = 10
-flyout = 6
-foul = 4
-h1 = 9
+out = 9
+flyout = 4
+foul = 3
+h1 = 8
 h2 = 3
 h3 = 1
-total = hr+out+h1+h2+h3
+total = hr+out+h1+h2+h3+flyout+foul
 
 # initial game setting
 team1 = 0
@@ -88,6 +88,8 @@ def process():
                             strike += 1
                     if(result=="flyout"):
                         out +=1
+                        if not (out==3):
+                            flyrun()
                         strike = ball = 0
                 else:
                     strike += 1
@@ -112,7 +114,7 @@ def process():
                         out +=1
                         strike = ball = 0
                         result='스트라이크 아웃'
-            print(result,":::",ball,"-",strike,":::",inn,"회",sub,runnerlist,out,"아웃",team1,":",team2)
+            print(result,ball,"볼",strike,"스트라이크",inn,"회",sub,runnerlist,out,"아웃",team1,":",team2)
         if not sub:
             inn += 1
         sub = not sub
@@ -125,6 +127,20 @@ def run(much):
     for runner in runnerlist:
         temp.append(runner+much)
     temp.append(much)
+    for i in range(0,4):
+        for runner in temp:
+            if(runner >= 4):
+                score()
+                temp.remove(runner)
+    runnerlist = temp
+    runnerlist.sort()
+
+def flyrun():
+    global runnerlist
+    temp = []
+    for runner in runnerlist:
+        if not (runner==1):
+            temp.append(runner+1)
     for i in range(0,4):
         for runner in temp:
             if(runner >= 4):
